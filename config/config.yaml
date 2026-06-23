@@ -1,0 +1,16 @@
+http:
+  server:
+    listen: ":8080"
+    name: localhost
+    read_timeout: 10s
+    write_timeout: 10s
+
+  routes:
+    - location: /abc/
+      proxy_pass: http://localhost:8081/abc/
+
+    - location: /xyz/
+      strategy: round_robin
+      upstreams:
+        - url: http://localhost:8082/xyz/
+        - url: http://localhost:8083/xyz/

@@ -1,0 +1,1 @@
+1. Allow both proxy pass and upstream for destination urls definition but at go parsing use only upstream in struct.
