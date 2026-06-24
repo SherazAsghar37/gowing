@@ -1,16 +1,22 @@
 http:
   server:
-    listen: ":8080"
-    name: localhost
-    read_timeout: 10s
-    write_timeout: 10s
+    - listen: ":8080"
+      name: localhost
+      read_timeout: 10s
+      write_timeout: 10s
+      routes:
+        - location: /abc/
+          proxy_pass: http://localhost:8081/abc/
+        - location: /xyz/
+          strategy: round_robin
+          upstreams:
+            - url: http://localhost:8082/xyz/
+            - url: http://localhost:8083/xyz/
 
-  routes:
-    - location: /abc/
-      proxy_pass: http://localhost:8081/abc/
-
-    - location: /xyz/
-      strategy: round_robin
-      upstreams:
-        - url: http://localhost:8082/xyz/
-        - url: http://localhost:8083/xyz/
+    - listen: ":8443"
+      name: secure-localhost
+      read_timeout: 10s
+      write_timeout: 10s
+      routes:
+        - location: /secure/
+          proxy_pass: http://localhost:9001/secure/
